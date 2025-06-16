@@ -20,7 +20,35 @@
 <body>
 <h1 class="header">檔案管理練習</h1>
 <!----建立上傳檔案表單及相關的檔案資訊存入資料表機制----->
+<?php
 
+
+$dns="mysql:host=localhost;dbname=files;charset=utf8";
+$pdo=new PDO($dns, 'root', '');
+$rows=$pdo->query("select *from uploads")->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+<!-- table.table>(tr>th*5)+(tr>td*5) -->
+<table class="table">
+    <tr>
+        <th>序號</th>
+        <th>縮圖</th>
+        <th>檔名</th>
+        <th>類型</th>
+        <th>操作</th>
+    </tr>
+    <?php foreach($rows as $key => $row): ?>
+    <tr>
+        <td><?=$row['id']?></td>
+        <td><img src="./files/<?=$row['name']?>" style="width: 100px;"></td>
+        <td><?=$row['name']?></td>
+        <td><?=$row['type']?></td>
+        <td>
+            <button>編輯</button><button>刪除</button>
+        </td>
+    </tr>
+    <?php endforeach; ?>
+</table>
 
 
 
