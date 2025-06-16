@@ -78,11 +78,26 @@
             font-size: 2em;
             letter-spacing: 2px;
         }
+        .add-file {
+            display: block;
+            width: 150px;
+            text-align: center;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: #3498db;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.2s, color 0.2s;
+        }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <h1 class="header">檔案管理練習</h1>
 <!----建立上傳檔案表單及相關的檔案資訊存入資料表機制----->
+<a class='add-file' href="upload.php">新增檔案</a>
+
 <?php
 if(isset($_GET['msg'])){
     echo "<h2 style='color:pink;text-align:center'>".$_GET['msg']."</h2>";
@@ -93,7 +108,35 @@ $pdo=new PDO($dns, 'root', '');
 $rows=$pdo->query("select *from uploads")->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-<a href="./upload.php">新增檔案</a>
+<style>
+.pages {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px auto 20px auto;
+    gap: 8px;
+    width: 80%;
+}
+.pages a {
+    display: inline-block;
+    padding: 7px 16px;
+    margin: 0 2px;
+    background: #f5f6fa;
+    color: #3498db;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    border: 1px solid #dbeafe;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.pages a:hover, .pages a.active {
+    background: #3498db;
+    color: #fff;
+    border: 1px solid #3498db;
+}
+</style>
+
+
 
 <?php
 // "分頁"功能
