@@ -109,6 +109,7 @@ $rows=$pdo->query("select *from uploads")->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <style>
+    /* 老師用AI生成的code 去美化"分頁"的版面 */
 .pages {
     display: flex;
     justify-content: space-between;
@@ -151,6 +152,7 @@ $rows=all("uploads", " limit $start, $div");
 
 <div class="pages">
     <a href="?p=1">第一頁</a>
+    <!-- 上一頁 -->
     <?php
     if($now-1>0){
         echo "<a href='?p=".($now-1)."'>上一頁</a>";
@@ -158,19 +160,15 @@ $rows=all("uploads", " limit $start, $div");
         echo "<a href='#'>上一頁</a>";
     }
     ?>
-    <!-- <a href="">上一頁</a> -->
 
-
-    <!-- <a href="">1</a>
-    <a href="">2</a>
-    <a href="">3</a> -->
+    <!-- 中間頁 -->
     <?php
         for($i=1;$i<=$pages;$i++){
             echo "<a href='?p=$i'>$i</a>";
         }
     ?>
 
-    <!-- <a href="">下一頁</a> -->
+    <!-- 下一頁 -->
     <?php
     if($now+1<=$pages){
         echo "<a href='?p=".($now+1)."'>下一頁</a>";
