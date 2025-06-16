@@ -38,7 +38,7 @@ function all($table, $array=null, $str=null){
         $sql .=$str;
     
 
-    echo $sql;
+    // echo $sql;
     $rows=$pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     return $rows;
 }
@@ -100,7 +100,7 @@ function update($table, $data){
     $tmp=arr2sql($data);
 
     $sql="UPDATE $table SET ".join(" , ", $tmp)." WHERE id='{$data['id']}'";
-    echo $sql;
+    // echo $sql;
     return $pdo->exec($sql); //會去資料庫執行它
 }
 
@@ -109,7 +109,7 @@ function insert($table, $data){
     $keys=array_keys($data);
 
     $sql="INSERT INTO $table (`".join("`,`", $keys)."`) values('".join("','", $data)."');";
-    echo $sql;
+    // echo $sql;
     return $pdo->exec($sql);
 }
 
@@ -141,7 +141,7 @@ function del($table, $id){
     }else{
         $sql.= "id='$id'";
     }
-    echo $sql;
+    // echo $sql;
     return $pdo->exec($sql);
 }
 

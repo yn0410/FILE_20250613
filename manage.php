@@ -8,6 +8,7 @@
 
 
 ?>
+<?php include_once "db.php";?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,7 +85,7 @@
 <!----建立上傳檔案表單及相關的檔案資訊存入資料表機制----->
 <?php
 if(isset($_GET['msg'])){
-    echo "<h2>".$_GET['msg']."</h2>";
+    echo "<h2 style='color:pink;text-align:center'>".$_GET['msg']."</h2>";
 }
 
 $dns="mysql:host=localhost;dbname=files;charset=utf8";
@@ -92,6 +93,53 @@ $pdo=new PDO($dns, 'root', '');
 $rows=$pdo->query("select *from uploads")->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
+<a href="./upload.php">新增檔案</a>
+
+<?php
+// "分頁"功能
+$div=5; //每頁的資料數=5
+$total_rows=$pdo->query("select count(*) from uploads")->fetchColumn(); //資料庫內共有幾筆資料
+$pages=ceil($total_rows/$div);//總分頁數
+$now=$_GET['p']??1;//現在在第幾頁 &isset可換成 此三元運算式(?)
+$start=($now-1)*$div;
+
+$rows=all("uploads", " limit $start, $div");
+?>
+
+<div class="pages">
+    <a href="?p=1">第一頁</a>
+    <?php
+    if($now-1>0){
+        echo "<a href='?p=".($now-1)."'>上一頁</a>";
+    } else{
+        echo "<a href='#'>上一頁</a>";
+    }
+    ?>
+    <!-- <a href="">上一頁</a> -->
+
+
+    <!-- <a href="">1</a>
+    <a href="">2</a>
+    <a href="">3</a> -->
+    <?php
+        for($i=1;$i<=$pages;$i++){
+            echo "<a href='?p=$i'>$i</a>";
+        }
+    ?>
+
+    <!-- <a href="">下一頁</a> -->
+    <?php
+    if($now+1<=$pages){
+        echo "<a href='?p=".($now+1)."'>下一頁</a>";
+    } else{
+        echo "<a href='#'>下一頁</a>";
+    }
+    ?>
+    <a href="?p=<?=$pages;?>">最後頁</a>
+</div>
+
+
+
 <!-- table.table>(tr>th*5)+(tr>td*5) -->
 <table class="table">
     <tr>
@@ -135,11 +183,47 @@ $rows=$pdo->query("select *from uploads")->fetchAll(PDO::FETCH_ASSOC);
     <?php endforeach; ?>
 </table>
 
+<!-- "分頁"功能 -->
+<div class="pages">
+    <a href="?p=1">第一頁</a>
+    <!-- 上一頁 -->
+    <?php
+    if($now-1>0){
+        echo "<a href='?p=".($now-1)."'>上一頁</a>";
+    } else{
+        echo "<a href='#'>上一頁</a>";
+    }
+    ?>
+
+    <!-- 中間頁 -->
+    <?php
+        for($i=1;$i<=$pages;$i++){
+            echo "<a href='?p=$i'>$i</a>";
+        }
+    ?>
+
+    <!--下一頁 -->
+    <?php
+    if($now+1<=$pages){
+        echo "<a href='?p=".($now+1)."'>下一頁</a>";
+    } else{
+        echo "<a href='#'>下一頁</a>";
+    }
+    ?>
+    <a href="?p=<?=$pages;?>">最後頁</a>
+</div>
 
 
 
 <!----透過資料表來顯示檔案的資訊，並可對檔案執行更新或刪除的工作----->
 
+<script>
+$(".del").on("click",function(){
+        if(confirm("確定要刪除這個檔案嗎？")){
+            location.href="del_upload.php?id="+$(this).data("id");
+        }   
+})
+</script>
 
 
 
