@@ -67,7 +67,7 @@ function find($table, $id){
     }else{
         $sql="SELECT * FROM $table WHERE id='$id'";
     }
-    echo $sql;
+    // echo $sql;
     return $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 }
 
